@@ -102,7 +102,8 @@ class CommandHandler:
 
     async def adjust_delay(self, delta: float) -> None:
         """Adjust static delay by delta milliseconds."""
-        self._client.set_static_delay_ms(self._client.static_delay_ms + delta)
+        new_delay = max(0, min(5000, self._client.static_delay_ms + delta))
+        self._client.set_static_delay_ms(new_delay)
         self._ui.set_delay(self._client.static_delay_ms)
         self._settings.update(static_delay_ms=self._client.static_delay_ms)
 
